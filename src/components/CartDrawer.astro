@@ -1,0 +1,42 @@
+<div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+  <div id="cart-overlay" class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity"></div>
+  
+  <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+    <div class="w-screen max-w-md bg-zinc-900 border-l border-zinc-800 flex flex-col shadow-2xl">
+      <div class="p-6 border-b border-zinc-800 flex items-center justify-between">
+        <h2 class="text-xl font-bold flex items-center gap-2">
+          🛒 Seu Carrinho
+        </h2>
+        <button id="close-cart-btn" class="text-zinc-400 hover:text-white p-2">
+          ✕
+        </button>
+      </div>
+
+      <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 divide-y divide-zinc-800/50">
+        <p id="empty-cart-msg" class="text-zinc-500 text-center py-12">Seu carrinho está vazio.</p>
+      </div>
+
+      <div class="p-6 border-t border-zinc-800 bg-zinc-900/50 space-y-4">
+        <div class="space-y-2">
+          <div>
+            <label class="block text-xs font-medium text-zinc-400 mb-1">Seu Nome:</label>
+            <input type="text" id="customer-name" placeholder="Ex: João Silva" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-zinc-400 mb-1">Endereço de Entrega:</label>
+            <input type="text" id="customer-address" placeholder="Rua, Número, Bairro" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-lg font-bold pt-2">
+          <span>Total:</span>
+          <span id="cart-total" class="text-red-500">R$ 0,00</span>
+        </div>
+
+        <button id="checkout-whatsapp-btn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3.5 rounded-xl transition shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+          Enviar Pedido via WhatsApp 🚀
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

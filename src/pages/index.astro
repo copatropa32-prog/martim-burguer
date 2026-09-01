@@ -1,0 +1,310 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import { menuCategories, products } from '../data/menu';
+---
+
+<Layout title="Martim Food HAMBURGUERIA & PASTELARIA | Cardápio Digital">
+  <!-- Cabeçalho Otimizado para Mobile -->
+  <header class="sticky top-0 z-40 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800">
+    <div class="max-w-6xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-1.5 sm:gap-3">
+      <!-- Logotipo -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <span class="text-white font-extrabold text-sm sm:text-lg tracking-wider">🍔 MARTIM FOOD <span class="text-[10px] sm:text-sm font-medium text-zinc-400 hidden lg:inline">| Hamburgueria & Pastelaria</span></span>
+      </div>
+
+      <!-- Ações do Topo -->
+      <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        <!-- Botão iFood Martim de Sá -->
+        <a 
+          href="https://www.ifood.com.br/delivery/caraguatatuba-sp/martim-food-martim-de-sa/d565613c-94f7-49d4-9e3e-d0bbf430f646?utm_medium=share" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white font-medium px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl transition-all shadow-md text-[11px] sm:text-sm leading-tight"
+        >
+          <span>iFood <span class="hidden xs:inline">Martim de Sá</span></span>
+        </a>
+
+        <!-- Botão iFood Aruan -->
+        <a 
+          href="https://bio.link/martimfood" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="flex items-center gap-1 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white font-medium px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl transition-all border border-zinc-700 text-[11px] sm:text-sm leading-tight"
+        >
+          <span>iFood Aruan</span>
+        </a>
+
+        <!-- Botão do Carrinho -->
+        <button 
+          id="open-cart-btn" 
+          class="flex items-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-semibold transition-all relative shrink-0"
+        >
+          🛒 <span class="hidden sm:inline">Carrinho</span>
+          <span id="cart-counter" class="bg-red-600 text-white text-[10px] w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center font-bold">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative bg-zinc-900 py-16 border-b border-zinc-800 overflow-hidden">
+    <div class="absolute inset-0 opacity-25 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=80')"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/80 to-transparent"></div>
+    
+    <div class="relative max-w-6xl mx-auto px-4 text-center space-y-4">
+      <div class="inline-block bg-red-600/20 text-red-500 border border-red-500/30 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
+        Unidades Aruan e Martim de Sá • Caraguatatuba - SP
+      </div>
+      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight">Martim Food Hamburgueria & Pastelaria</h2>
+      <p class="text-zinc-400 max-w-xl mx-auto text-sm md:text-base">
+        Desde 2020, servindo sabor, carinho e tradição em Caraguá. Mais de 5 anos de excelência com ingredientes selecionados!
+      </p>
+
+      <!-- Bloco de Status de Funcionamento Dinâmico -->
+      <div id="store-status-badge" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold border transition-all shadow-sm bg-zinc-950/80 border-zinc-800 text-zinc-300">
+        <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-zinc-500"></span>
+        <span id="status-text">Verificando horário...</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conteúdo Principal / Cardápio com as novas categorias -->
+  <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
+    {menuCategories.map(category => {
+      const categoryProducts = products.filter(p => p.category === category.id);
+      if (categoryProducts.length === 0) return null;
+
+      return (
+        <section id={category.id} class="space-y-6">
+          <div class="border-b border-zinc-800 pb-3 flex items-center justify-between">
+            <h3 class="text-2xl font-bold tracking-wide flex items-center gap-2">
+              🔥 {category.name}
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {categoryProducts.map(product => (
+              <div class="bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition rounded-2xl p-4 flex gap-4 items-center justify-between group">
+                <div class="space-y-2 flex-1">
+                  <h4 class="font-bold text-lg text-zinc-100 group-hover:text-red-500 transition">{product.name}</h4>
+                  <p class="text-xs text-zinc-400 line-clamp-2 leading-relaxed">{product.description}</p>
+                  <div class="flex items-center justify-between pt-2">
+                    <span class="text-lg font-extrabold text-red-500">
+                      R$ {product.price.toFixed(2).replace('.', ',')}
+                    </span>
+                    <button 
+                      class="add-to-cart-btn bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-md shadow-red-600/30 flex items-center gap-1.5"
+                      data-id={product.id}
+                      data-name={product.name}
+                      data-price={product.price}
+                    >
+                      + Adicionar
+                    </button>
+                  </div>
+                </div>
+                <img 
+                  src={product.image} 
+                  alt={product.name} 
+                  class="w-28 h-28 object-cover rounded-xl border border-zinc-800 flex-shrink-0"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    })}
+  </main>
+
+  <!-- Rodapé Profissional -->
+  <footer class="bg-zinc-950 border-t border-zinc-800 text-zinc-400 py-12 px-4">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-zinc-800/80">
+      <div class="space-y-3">
+        <h4 class="text-white font-bold text-base">🍔 Martim Food</h4>
+        <p class="text-xs leading-relaxed">
+          Hamburgueria & Pastelaria artesanal em Caraguatatuba. Duas unidades prontas para te atender com o melhor sabor!
+        </p>
+      </div>
+      <div class="space-y-3">
+        <h4 class="text-white font-bold text-base">🕒 Horários de Funcionamento</h4>
+        <p class="text-xs"><strong>Loja Física:</strong> Seg. a Dom. das 11h às 00h</p>
+        <p class="text-xs"><strong>Delivery:</strong> Seg. a Dom. das 19h às 23:30</p>
+      </div>
+      <div class="space-y-3">
+        <h4 class="text-white font-bold text-base">📍 Nossas Unidades</h4>
+        <p class="text-xs"><strong>Unidade Martim de Sá:</strong><br/>Av. Doutor Aldino Schiavi, 279</p>
+        <p class="text-xs"><strong>Unidade Aruan:</strong><br/>Caraguatatuba - SP</p>
+        <p class="text-xs pt-1">📞 WhatsApp: (12) 98223-4067</p>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
+      <p>© 2026 Martim Food Hamburgueria & Pastelaria. Todos os direitos reservados.</p>
+      <div class="flex items-center gap-4">
+        <a href="https://www.instagram.com/martim_food/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">Instagram</a>
+        <a href="https://bio.link/martimfood" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">Bio.link</a>
+      </div>
+    </div>
+  </footer>
+
+  <CartDrawer />
+  <WhatsAppButton />
+
+  <script>
+    function checkStoreStatus() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const currentTimeNum = hours * 60 + minutes;
+
+      const openingTime = 19 * 60; 
+      const closingTime = 23 * 60 + 30;
+
+      const isOpen = currentTimeNum >= openingTime && currentTimeNum <= closingTime;
+
+      const badge = document.getElementById('store-status-badge');
+      const dot = document.getElementById('status-dot');
+      const text = document.getElementById('status-text');
+
+      if (badge && dot && text) {
+        if (isOpen) {
+          badge.className = "inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold border transition-all shadow-sm bg-emerald-950/60 border-emerald-600/40 text-emerald-400";
+          dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse";
+          text.textContent = "🟢 Aberto Agora (Delivery Ativo)";
+        } else {
+          badge.className = "inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold border transition-all shadow-sm bg-red-950/60 border-red-600/40 text-red-400";
+          dot.className = "w-2.5 h-2.5 rounded-full bg-red-500";
+          text.textContent = "🔴 Fechado no momento (Delivery das 19h às 23:30)";
+        }
+      }
+    }
+
+    checkStoreStatus();
+    setInterval(checkStoreStatus, 60000);
+
+    interface CartItem {
+      id: string;
+      name: string;
+      price: number;
+      quantity: number;
+    }
+
+    let cart: CartItem[] = [];
+
+    const cartDrawer = document.getElementById('cart-drawer');
+    const openCartBtn = document.getElementById('open-cart-btn');
+    const closeCartBtn = document.getElementById('close-cart-btn');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const cartCounter = document.getElementById('cart-counter');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartTotalElement = document.getElementById('cart-total');
+    const emptyCartMsg = document.getElementById('empty-cart-msg');
+    const checkoutBtn = document.getElementById('checkout-whatsapp-btn') as HTMLButtonElement;
+    const customerNameInput = document.getElementById('customer-name') as HTMLInputElement;
+    const customerAddressInput = document.getElementById('customer-address') as HTMLInputElement;
+
+    function toggleCart(show: boolean) {
+      if (show) {
+        cartDrawer?.classList.remove('hidden');
+      } else {
+        cartDrawer?.classList.add('hidden');
+      }
+    }
+
+    openCartBtn?.addEventListener('click', () => toggleCart(true));
+    closeCartBtn?.addEventListener('click', () => toggleCart(false));
+    cartOverlay?.addEventListener('click', () => toggleCart(false));
+
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const id = target.dataset.id!;
+        const name = target.dataset.name!;
+        const price = parseFloat(target.dataset.price!);
+
+        const existing = cart.find(item => item.id === id);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          cart.push({ id, name, price, quantity: 1 });
+        }
+
+        updateCartUI();
+        toggleCart(true);
+      });
+    });
+
+    function updateCartUI() {
+      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+      if (cartCounter) cartCounter.textContent = totalCount.toString();
+      if (cartTotalElement) cartTotalElement.textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+
+      if (cart.length === 0) {
+        if (emptyCartMsg) emptyCartMsg.style.display = 'block';
+        if (cartItemsContainer) {
+          cartItemsContainer.innerHTML = '<p id="empty-cart-msg" class="text-zinc-500 text-center py-12">Seu carrinho está vazio.</p>';
+        }
+      } else {
+        if (emptyCartMsg) emptyCartMsg.style.display = 'none';
+        if (cartItemsContainer) {
+          cartItemsContainer.innerHTML = cart.map(item => `
+            <div class="py-3 flex items-center justify-between border-b border-zinc-800">
+              <div>
+                <h5 class="font-semibold text-sm">${item.name}</h5>
+                <p class="text-xs text-zinc-400">R$ ${item.price.toFixed(2).replace('.', ',')} x ${item.quantity}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="window.updateQuantity('${item.id}', -1)" class="w-7 h-7 bg-zinc-800 rounded-lg text-sm font-bold hover:bg-zinc-700">-</button>
+                <span class="text-sm font-semibold">${item.quantity}</span>
+                <button onclick="window.updateQuantity('${item.id}', 1)" class="w-7 h-7 bg-zinc-800 rounded-lg text-sm font-bold hover:bg-zinc-700">+</button>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    (window as any).updateQuantity = (id: string, delta: number) => {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+          cart = cart.filter(i => i.id !== id);
+        }
+        updateCartUI();
+      }
+    };
+
+    checkoutBtn?.addEventListener('click', () => {
+      const name = customerNameInput.value.trim();
+      const address = customerAddressInput.value.trim();
+
+      if (!name || !address) {
+        alert('Por favor, preencha seu nome e endereço de entrega antes de enviar o pedido.');
+        return;
+      }
+
+      if (cart.length === 0) return;
+
+      let message = `*NOVO PEDIDO - MARTIM FOOD* 🍔\n\n`;
+      message += `👤 *Cliente:* ${name}\n`;
+      message += `📍 *Endereço:* ${address}\n\n`;
+      message += `📋 *Itens do Pedido:*\n`;
+
+      cart.forEach(item => {
+        message += `- ${item.quantity}x ${item.name} (R$ ${(item.price * item.quantity).toFixed(2)})\n`;
+      });
+
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      message += `\n💰 *Total a pagar:* R$ ${total.toFixed(2).replace('.', ',')}`;
+
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/5512982234067?text=${encodedMessage}`;
+      
+      window.open(whatsappUrl, '_blank');
+    });
+  </script>
+</Layout>
